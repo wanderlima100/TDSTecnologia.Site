@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using TDSTecnologia.Site.Core.Dominio;
+using TDSTecnologia.Site.Infrastructure.Repository;
 
 namespace TDSTecnologia.Site.Core.Entities
 {
@@ -28,10 +30,24 @@ namespace TDSTecnologia.Site.Core.Entities
         [Column("banner")]
         public byte[] Banner { get; set; }
 
+        //[NotMapped]
+        //public string BannerBase64 { get; set; }
         [NotMapped]
-        public string BannerBase64 { get; set; }
+        public string BannerBase64
+        {
+            get
+            {
+                return UtilImagem.ConverterByteArrayParaStringBase64(Banner);
+            }
+        }
 
         [Column("turno")]
         public DomTurno Turno { get; set; }
+
+        [Column("modalidade")]
+        public DomModalidade Modalidade { get; set; }
+
+        [Column("nivel")]
+        public DomNivel Nivel { get; set; }
     }
 }

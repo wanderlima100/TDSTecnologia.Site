@@ -5,10 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
+using TDSTecnologia.Site.Infrastructure.Repository;
+using TDSTecnologia.Site.Infrastructure.Services;
 
 namespace TDSTecnologia.Site.Web
 {
@@ -20,6 +25,7 @@ namespace TDSTecnologia.Site.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -28,6 +34,14 @@ namespace TDSTecnologia.Site.Web
             services.AddMvc();
             services.AddEntityFrameworkNpgsql()
  .AddDbContext<AppContexto>(options => options.UseNpgsql(Configuration.GetConnectionString("AppConnection")));
+            services.AddScoped<CursoRespository, CursoRespository>();
+            services.AddScoped<CursoService, CursoService>();
+            services.AddScoped<PermissaoService, PermissaoService>();
+            services.AddScoped<UsuarioService, UsuarioService>();
+            services.AddIdentity<Usuario, Permissao>()
+                            .AddDefaultUI(UIFramework.Bootstrap4)
+                            .AddEntityFrameworkStores<AppContexto>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +52,7 @@ namespace TDSTecnologia.Site.Web
                 app.UseDeveloperExceptionPage();
                 app.UseMvcWithDefaultRoute();
                 app.UseStaticFiles();
+                app.UseAuthentication();
             }
 
             app.Run(async (context) =>

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] Bootstrap</title>
     <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" />
 </head>
 <body>
     <header>
@@ -28,6 +29,9 @@
                         </li>
                     </ul>
                 </div>
+                <ul class="nav navbar-nav navbar-right">
+                    @await Html.PartialAsync("_LoginPartial.cshtml")
+                </ul>
             </div>
         </nav>
     </header>
