@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
 using TDSTecnologia.Site.Infrastructure.Repository;
 using TDSTecnologia.Site.Infrastructure.Services;
+using TDSTecnologia.Site.Web.ViewModels;
+using X.PagedList;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
@@ -64,19 +67,26 @@ namespace TDSTecnologia.Site.Web.Controllers
         */
 
 
-        public IActionResult Index()
+        public IActionResult Index(int? pagina)
         {
-            List<Curso> cursos = _cursoService.ListarTodos();
-            return View(cursos);
+            //List<Curso> cursos = _cursoService.ListarTodos();
+
+            IPagedList<Curso> cursos = _cursoService.ListarComPaginacao(pagina);
+            var viewModel = new CursoViewModel
+            {
+                CursosComPaginacao = cursos
+            };
+
+            return View(viewModel);
         }
 
-        /*
+        
         [HttpGet]
         public IActionResult Novo()
         {
             return View();
         }
-        */
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -274,6 +284,23 @@ namespace TDSTecnologia.Site.Web.Controllers
         {
             _cursoService.Excluir(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult PesquisarCurso(CursoViewModel pesquisa)
+        {
+            if (pesquisa.Texto != null && !String.IsNullOrEmpty(pesquisa.Texto))
+            {
+                List<Curso> cursos = _cursoService.PesquisarPorNomeDescricao(pesquisa.Texto);
+                var viewModel = new CursoViewModel
+                {
+                    Cursos = cursos
+                };
+                return View("Index", viewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
     }
