@@ -33,7 +33,7 @@ namespace TDSTecnologia.Site.Infrastructure.Data
             //.HasConversion(DominioConverter.ConverterDomTurno());
             modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("tds");
+            //modelBuilder.HasDefaultSchema("tds");
             modelBuilder.ApplyConfiguration(new PermissaoMapConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioMapConfiguration());
         }
