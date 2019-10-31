@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
